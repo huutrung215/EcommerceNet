@@ -1,0 +1,47 @@
+﻿@model _19T1021289.Web.Models.CategorySearchOutput
+
+@{
+    Layout = null;
+}
+
+<p>Có <strong>@string.Format("{0:N0}", @Model.RowCount)</strong> loại hàng trong tổng số <strong>@string.Format("{0:N0}", @Model.PageCount)</strong> trang</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Tên loại hàng</th>
+            <th>Các mặt hàng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Data)
+        {
+            <tr>
+                <td>@item.CategoryName</td>
+                <td>@item.Description</td>
+                <td class="text-right">
+                    <a href="~/Category/Edit/@item.CategoryID" class="btn btn-primary">Sửa</a>
+                </td>
+                <td>
+                    <a href="~/Category/Delete/@item.CategoryID" class="btn btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<div class="text-center">
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            if (i == Model.Page)
+            {
+                <li class="active"><a href="#">@i</a></li>
+            }
+            else
+            {
+                <li><a href="javascript:;" onclick="doSearch(@i)">@i</a></li>
+            }
+        }
+    </ul>
+</div>

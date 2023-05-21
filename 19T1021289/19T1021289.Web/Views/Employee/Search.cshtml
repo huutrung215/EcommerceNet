@@ -1,0 +1,63 @@
+﻿@model _19T1021289.Web.Models.EmployeeSearchOutput
+
+@{
+    Layout = null;
+}
+
+<p>Có <strong>@string.Format("{0:N0}", @Model.RowCount)</strong> nhân viên trong tổng số <strong>@string.Format("{0:N0}", @Model.PageCount)</strong> trang</p>
+
+<div class="row">
+    @foreach (var item in Model.Data)
+    {
+        <div class="col-sm-4">
+            <div class="box box-widget widget-user-2" style="height: 450px;">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-yellow">
+                    <div class="widget-user-image">
+                        <img class="img-circle" src="~/Photo/@item.Photo" alt="User Avatar">
+                    </div>
+                    <!-- /.widget-user-image -->
+                    <h3 class="widget-user-username" style="padding-bottom: 40px;">@item.FirstName @item.LastName</h3>
+                </div>
+                <div class="box-footer no-padding">
+                    <div>
+                        <div>
+                            <ul class="nav nav-stacked">
+                                <li><a href="#">Ngày sinh: <span>@string.Format("{0:dd/MM/yyyy}", item.BirthDate)</span></a></li>
+                                <li><a href="#">Email: <span>@item.Email</span></a></li>
+                                <li>
+                                    <a href="#">
+                                        Ghi chú:
+                                        <span>@item.Notes</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="" style="padding: 4% 0 4% 5%; position: absolute; bottom: 0;">
+                            <a href="~/Employee/Edit/@item.EmployeeID" class="btn btn-primary">Sửa</a>
+                            <a href="~/Employee/Delete/@item.EmployeeID" class="btn btn-danger">Xóa</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="text-center">
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            if (i == Model.Page)
+            {
+                <li class="active"><a href="#">@i</a></li>
+            }
+            else
+            {
+                <li><a href="javascript:;" onclick="doSearch(@i)">@i</a></li>
+            }
+        }
+    </ul>
+</div>

@@ -1,0 +1,119 @@
+﻿@model _19T1021289.DomainModels.ProductPhoto
+@{
+}
+
+<style>
+    .div-img {
+        width: 100%;
+        height: 240px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+
+
+        .div-img img {
+            position: absolute;
+            width: 55%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            /*            border: 1px solid #555;
+    */
+        }
+</style>
+
+<div class="box box-primary">
+    <div class="box-header with-border ">
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-8">
+                <form class="form-horizontal" action="~/Product/SavePhoto" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.PhotoID)
+                    @Html.HiddenFor(m => m.ProductID)
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="">Ảnh:</label>
+                        <div class="col-sm-10">
+                            @Html.HiddenFor(m => m.Photo)
+                            <input type="file" class="form-control-file" name="uploadPhoto" id="fileInput" accept="image/*" />
+                            @Html.ValidationMessageFor(m => m.Photo, "", new { @style = "color:#f00" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Mô tả:</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @placeholder = "" })
+                            @Html.ValidationMessageFor(m => m.Description, "", new { @style = "color:#f00" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Thứ tự hiển thị:</label>
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.DisplayOrder, new { @class = "form-control", @placeholder = "" })
+                            @Html.ValidationMessageFor(m => m.DisplayOrder, "", new { @style = "color:#f00" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Ẩn ảnh:</label>
+                        <div class="col-sm-10">
+                            @Html.CheckBoxFor(m => m.IsHidden , new { @class = "btn"})
+                            @Html.ValidationMessageFor(m => m.IsHidden, "", new { @style = "color:#f00" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save"></i> Lưu dữ liệu
+                            </button>
+                            <a class="btn btn-warning" href="~/product">
+                                <i class="fa fa-ban"></i> Quay lại
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-4">
+                <div class="div-img">
+                    <i class="fa fa-upload"></i>
+                    <h3>Upload Image</h3>
+                    <p>Image size must be less than <span>2MB</span></p>
+                    <img id="preview" src="~/Photo/@Model.Photo" alt="Image Preview">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="box-footer text-center">
+    </div>
+
+    <script>
+                const fileInput = document.getElementById("fileInput");
+                const preview = document.getElementById("preview");
+
+                fileInput.addEventListener("change", function () {
+                    const file = this.files[0];
+                    const reader = new FileReader();
+
+                    reader.addEventListener("load", function () {
+                        preview.src = reader.result;
+                        preview.style.display = "block";
+                    });
+
+                    reader.readAsDataURL(file);
+                });
+    </script>
+
+</div>
+
+
